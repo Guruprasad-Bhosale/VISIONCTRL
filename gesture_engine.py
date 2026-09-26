@@ -414,12 +414,13 @@ class GestureEngine:
 
         elif gesture == GestureType.THREE_FINGER:
             self.interaction_locked = False
-            if (now - self.last_middle_click_time) >= self.config.middle_click_cooldown_s:
+            cooldown = getattr(self.config, "click_cooldown_s", 0.20)
+            if (now - self.last_click_time) >= cooldown:
                 if self.config.enabled:
-                    self.backend.middle_click()
-                self.last_middle_click_time = now
-                self.mouse_action = MouseActionState.MIDDLE_CLICKED
-                logger.info("Three-Finger Middle Click executed.")
+                    self.backend.click(button="left")
+                self.last_click_time = now
+                self.mouse_action = MouseActionState.CLICKED
+                logger.info("Three-Finger Left Click executed.")
             else:
                 self.mouse_action = MouseActionState.IDLE
 

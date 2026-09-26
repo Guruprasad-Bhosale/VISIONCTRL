@@ -505,13 +505,13 @@ def draw_hud(
                 status_hint = "TWO FINGER ACTIVE — Right Click"
                 hint_color = COLOR_PURPLE
             elif gesture_engine and str(getattr(gesture_engine, "active_gesture", "")) == "THREE_FINGER":
-                status_hint = "THREE FINGER ACTIVE — Middle Click"
+                status_hint = "THREE FINGER ACTIVE — Left Click"
                 hint_color = COLOR_PURPLE
             elif gesture_engine and str(getattr(gesture_engine, "active_gesture", "")) == "OPEN_PALM":
                 status_hint = "OPEN PALM (PAUSE) — Desktop interaction paused"
                 hint_color = COLOR_CYAN
             elif cursor_controller and cursor_controller.config.enabled:
-                status_hint = "DESKTOP MODE (ACTIVE) — Point: Cursor | Pinch: Click/Drag | 2-Finger: Right-Click | Fist: Lock"
+                status_hint = "DESKTOP MODE (ACTIVE) — Point: Cursor | 3-Finger: Left-Click | 2-Finger: Right-Click | Drag: Pinch | Fist: Lock"
                 hint_color = COLOR_GREEN
             else:
                 status_hint = "DESKTOP MODE (TELEMETRY) — Run with --cursor to control OS mouse | Press 'M' for Reality"
@@ -687,7 +687,7 @@ def draw_hand_skeleton(
                 pointer_color = COLOR_PURPLE
                 cv2.circle(frame, mid_pt, 9, COLOR_PURPLE, 2, cv2.LINE_AA)
                 cv2.circle(frame, ring_pt, 9, COLOR_PURPLE, 2, cv2.LINE_AA)
-                cv2.putText(frame, "MID-CLICK", (idx_pt[0] + 14, idx_pt[1] - 14), cv2.FONT_HERSHEY_SIMPLEX, 0.38, COLOR_PURPLE, 1, cv2.LINE_AA)
+                cv2.putText(frame, "LEFT-CLICK", (idx_pt[0] + 14, idx_pt[1] - 14), cv2.FONT_HERSHEY_SIMPLEX, 0.38, COLOR_PURPLE, 1, cv2.LINE_AA)
             elif g_type == "OPEN_PALM":
                 pointer_color = COLOR_CYAN
                 cv2.putText(frame, "PAUSE", (idx_pt[0] + 14, idx_pt[1] - 14), cv2.FONT_HERSHEY_SIMPLEX, 0.38, COLOR_CYAN, 1, cv2.LINE_AA)

@@ -607,9 +607,9 @@ class TestPhase4GestureActionsAndArbitration:
             engine.update(hand_two, (500, 500))
         assert len(backend.right_clicks) == 1
 
-    def test_three_finger_activates_middle_click_once(self):
+    def test_three_finger_activates_left_click_once(self):
         backend = MockMouseBackend()
-        config = GestureConfig(enabled=True, activation_frames=3, middle_click_cooldown_s=0.20)
+        config = GestureConfig(enabled=True, activation_frames=3, click_cooldown_s=0.20)
         engine = GestureEngine(config=config, backend=backend)
 
         hand_three = create_mock_hand_digits(index_ext=True, middle_ext=True, ring_ext=True, pinky_ext=False)
@@ -617,12 +617,12 @@ class TestPhase4GestureActionsAndArbitration:
         for _ in range(3):
             engine.update(hand_three, (500, 500))
 
-        assert len(backend.middle_clicks) == 1
-        assert engine.mouse_action == MouseActionState.MIDDLE_CLICKED
+        assert len(backend.clicks) == 1
+        assert engine.mouse_action == MouseActionState.CLICKED
 
         for _ in range(10):
             engine.update(hand_three, (500, 500))
-        assert len(backend.middle_clicks) == 1
+        assert len(backend.clicks) == 1
 
     def test_open_palm_suppresses_actions(self):
         backend = MockMouseBackend()
@@ -1693,8 +1693,8 @@ class TestPhase6NonRegressionGates:
         gesture_engine.update(hand_open, (500, 500))
         assert len(backend.clicks) == 1
 
-    def test_phase4_right_middle_click_non_regression(self):
-        """Phase 4 two-finger right click and three-finger middle click operate without regression."""
+    def test_phase4_right_left_click_non_regression(self):
+        """Two-finger right click and three-finger left click operate without regression."""
         backend = MockMouseBackend()
         gesture_engine = GestureEngine(config=GestureConfig(enabled=True, activation_frames=2), backend=backend)
 
@@ -1706,7 +1706,7 @@ class TestPhase6NonRegressionGates:
         hand_3f = create_mock_hand_digits(index_ext=True, middle_ext=True, ring_ext=True, pinky_ext=False)
         for _ in range(2):
             gesture_engine.update(hand_3f, (500, 500))
-        assert len(backend.middle_clicks) == 1
+        assert len(backend.clicks) == 1
 
 
 # =====================================================================
@@ -2606,7 +2606,7 @@ class TestPhase8DesktopModeBehavior:
         assert len(backend.mouse_ups) == 1
 
     def test_desktop_mode_two_finger_and_three_finger_clicks(self):
-        """In Desktop Mode, two-finger and three-finger gestures dispatch right and middle clicks."""
+        """In Desktop Mode, two-finger and three-finger gestures dispatch right and left clicks."""
         backend = MockMouseBackend()
         gesture_engine = GestureEngine(config=GestureConfig(enabled=True, activation_frames=2), backend=backend)
 
@@ -2618,7 +2618,7 @@ class TestPhase8DesktopModeBehavior:
         hand_3f = create_mock_hand_digits(index_ext=True, middle_ext=True, ring_ext=True, pinky_ext=False)
         for _ in range(2):
             gesture_engine.update(hand_3f, (500, 500))
-        assert len(backend.middle_clicks) == 1
+        assert len(backend.clicks) == 1
 
 
 class TestPhase8RealityModeBehavior:
